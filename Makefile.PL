@@ -1,6 +1,10 @@
 use ExtUtils::MakeMaker;
 # See lib/ExtUtils/MakeMaker.pm for details of how to influence
 # the contents of the Makefile that is written.
+
+die "Win32::Process::Memory is only for win32 platform, not for $^O\n"
+	if $^O ne "MSWin32";
+
 WriteMakefile(
     NAME              => 'Win32::Process::Memory',
     VERSION_FROM      => 'Memory.pm', # finds $VERSION

@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use base qw(Exporter);
 use vars qw($VERSION @EXPORT @EXPORT_OK);
-$VERSION = "0.10";
+$VERSION = "0.11";
 @EXPORT = qw();
 @EXPORT_OK = qw();
 
@@ -60,15 +60,14 @@ sub unsethandle {
 
 sub read {
 	my $this = shift;
-use Data::Dumper;
-	print Dumper(\@_);
+	$_[2] = "" unless defined $_[2];
 	defined($this->{hProcess}) ?
 		ReadMemory($this->{hProcess}, $_[0], $_[2], $_[1] ) : 0;
-	print Dumper(\@_);
 }
 
 sub write {
 	my $this = shift;
+	return 0 unless defined $_[1];
 	defined($this->{hProcess}) ?
 		ReadMemory($this->{hProcess}, $_[0], $_[1], length($_[1]) ) : 0;
 }
