@@ -1,0 +1,53 @@
+Win32::Process::Memory
+=================================
+
+read and write memory of other windows process
+
+INSTALLATION
+
+To install this module type the following:
+
+  perl Makefile.PL
+  make
+  make test
+  make install
+
+SYNOPSIS
+
+  require Win32::Process::Memory;
+  my ($proc, $buf, $bytes);
+
+  # read and write process with pid = 567
+  $proc = Win32::Process::Memory->new({ pid=>567 });
+  # read offset=5000 len=256 into $buf, return how much bytes are readed
+  $byte=$proc->read(5000, 256, $buf);
+  # write $buf into offset=5000
+  $byte=$proc->write(5000, $buf);
+  # close process
+  undef $proc;
+
+  # open process with name = cmd.exe, read-only
+  $proc = Win32::Process::Memory->new({ name=>'cmd.exe', access=>'read' });
+  # read offset=5000 len=256 into $buf, return how much bytes are readed
+  $byte=$proc->read(5000, 256, $buf);
+  # close process
+  undef $proc;
+
+  # open process with name = cmd.exe, write-only
+  $proc = Win32::Process::Memory->new({ name=>'cmd.exe', access=>'write' });
+  # write $buf into offset=5000
+  $byte=$proc->write(5000, $buf);
+  # close process
+  undef $proc;
+
+BUGS, REQUESTS, COMMENTS
+
+Please report any requests, suggestions or bugs via
+<http://rt.cpan.org/NoAuth/ReportBug.html?Dist=Win32-Process-Memory
+
+COPYRIGHT AND LICENSE
+
+Copyright 2004 Qing-Jie Zhou <qjzhou@hotmail.com>
+
+This library is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.

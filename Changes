@@ -1,0 +1,8 @@
+Revision history for Perl extension Win32::Process::Memory.
+
+0.10  2004.04.23 21:16 Qing-Jie Zhou
+    * Initial release
+
+0.01  2004.04.22 14:01
+	- original version; created by h2xs 1.23 with options
+		-n Win32::Process::Memory
