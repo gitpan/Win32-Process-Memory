@@ -14,36 +14,35 @@ To install this module type the following:
 
 SYNOPSIS
 
-  require Win32::Process::Memory;
-  my ($proc, $buf, $bytes);
+  # open process
+  my $proc = Win32::Process::Memory->new({ name=>'cmd.exe' });
 
-  # read and write process with pid = 567
-  $proc = Win32::Process::Memory->new({ pid=>567 });
-  # read offset=5000 len=256 into $buf, return how much bytes are readed
-  $byte=$proc->read(5000, 256, $buf);
-  # write $buf into offset=5000
-  $byte=$proc->write(5000, $buf);
-  # close process
-  undef $proc;
+  # do debug
+  printf "\nTotal Memory = 0x%X\n", $proc->get_memtotal;
+  print "\nMemory block list:\n";
+  my %memlist = $proc->get_memlist;
+  printf "  %08X -> %08X : Len=0x%X\n", $_, $_+$memlist{$_}, $memlist{$_}
+      foreach (sort {$a <=> $b} keys %memlist);
+  print "\nContent of 0x10004 -> 0x10103\n";
+  print $proc->hexdump(0x10004, 0x100);
 
-  # open process with name = cmd.exe, read-only
-  $proc = Win32::Process::Memory->new({ name=>'cmd.exe', access=>'read' });
-  # read offset=5000 len=256 into $buf, return how much bytes are readed
-  $byte=$proc->read(5000, 256, $buf);
-  # close process
-  undef $proc;
+  # search a sequence of unsigned int16
+  print "\nFind a sequence of unsinged int16:\n";
+  my @results = $proc->search_u16(92, 87, 105, 110, 51, 50);
+  print $proc->hexdump($_, 0x32)."\n" foreach @results;
 
-  # open process with name = cmd.exe, write-only
-  $proc = Win32::Process::Memory->new({ name=>'cmd.exe', access=>'write' });
-  # write $buf into offset=5000
-  $byte=$proc->write(5000, $buf);
+  # read and change value
+  printf "\n0x%X [unsigned int16] : %d\n", 0x10004, $proc->get_u16(0x10004);
+  printf "0x%X [unsigned int32] : %d\n", 0x10004, $proc->get_u32(0x10004);
+  #$proc->set_u32(0x10004, 55); # BE CAREFUL, MAY DAMAGE YOUR SYSTEM
+
   # close process
   undef $proc;
 
 BUGS, REQUESTS, COMMENTS
 
 Please report any requests, suggestions or bugs via
-<http://rt.cpan.org/NoAuth/ReportBug.html?Dist=Win32-Process-Memory
+<http://rt.cpan.org/NoAuth/ReportBug.html?Dist=Win32-Process-Memory>
 
 COPYRIGHT AND LICENSE
 

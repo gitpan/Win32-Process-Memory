@@ -1,5 +1,10 @@
 Revision history for Perl extension Win32::Process::Memory.
 
+0.20  2004.05.01 22:57 Qing-Jie Zhou
+    * methods and documents is changed and improved, see POD
+    * add get_memlist, get_memtotal, hexdump
+    * add get_..., set_..., search_..., search_range_...
+
 0.11  2004.04.23 22:08 Qing-Jie Zhou
     * Remove debug code
     * Set buf = "" if buf is passed as empty
